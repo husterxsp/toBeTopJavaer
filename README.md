@@ -20,27 +20,119 @@
 
 面向对象、面向过程
 
+> 面向过程：以事件为中心，按照时间发生的顺序，调用一系列函数。开发简单但是不易于维护。
+>
+> 面向对象：以对象为中心，把涉及到的事物抽象成对象。好处：结构化、模块化，易于维护。
+> [https://zhuanlan.zhihu.com/p/28427324](https://zhuanlan.zhihu.com/p/28427324)
+
+
 面向对象的三大基本特征和五大基本原则
+
+> 《think in java》第一章有介绍
+>
+> 封装、继承、多态：
+>
+> 封装：一些内部数据可以被不被暴露给外部访问，从而保护数据的安全。可以通过private、protected等关键字实现。
+>
+> 继承：子类继承父类，可以复用父类的方法什么的。
+>
+> 多态：后期绑定/动态绑定/运行时绑定。多态机制使具有不同内部结构的对象可以共享相同的外部接口。
+>
+> 前期绑定：程序执行前就进行绑定，由编译器和连接程序实现
+>
+> 后期绑定：运行时根据对象的类型进行绑定。对象种会有某种类型信息
+>
+> 绑定：把方法调用同方法主体关联起来。
+>
+> http://www.cnblogs.com/hnrainll/archive/2012/09/18/2690846.html
+>
+> 
+>
+> 组合优于继承，组合确实比继承更加灵活，也更有助于代码维护。
+>
+> 继承：会破坏代码的封装性，子类与父类之间紧密耦合，子类依赖于父类的实现，子类缺乏独立性
+>
+> 组合 vs 继承：https://www.hollischuang.com/archives/1319
+>
+> 
+>
+> 单一职责原则：一个类，最好只做一件事
+>
+> 开闭原则：软件实体应该是可扩展的，而不可修改的
+>
+> 里氏替换原则：子类必须能够替换其基类
+>
+> 依赖倒置：依赖于抽象。具体而言就是高层模块不依赖于底层模块，在依赖之间定义一个抽象的接口使得高层模块调用接口，而底层模块实现接口的定义
+>
+> 接口隔离：用多个小的专门的接口，而不要使用一个大的总接口。一个类对另外一个类的依赖应该建立在最小的接口上，不要强迫依赖不用的方法，这是一种接口污染。
+>
+> https://www.hollischuang.com/archives/220
 
 #### 平台无关性
 
 Java如何实现的平台无关
 
+> 平台无关有两种：源代码级和目标代码级。
+>
+> 我们常说的跨平台，或者平台无关，指的就是目标代码，或者说是软件交付件跨平台。
+>
+> Java源码编译出来的字节码文件，JVM会解析翻译成机器语言，即JVM帮我们把字节码翻译成机器语言的过程中就已经充分考虑到对应平台的特性了。
+
 JVM还支持哪些语言（Kotlin、Groovy、JRuby、Jython、Scala）
+
+> ErJang、Clojure
+>
+> https://coolshell.cn/articles/2631.html
+>
+> https://www.zhihu.com/question/20003582
 
 #### 值传递
 
 值传递、引用传递
 
+> 基本类型一般是值传递、引用类型一般是引用传递
+>
+> https://www.zhihu.com/question/31203609/answer/50992895
+
 为什么说Java中只有值传递
+
+> 当传入引用类型的时候，传入的是引用类型的地址，当修改这个传入变量的地址后，其实已经是在修改另一个对象了，所以说并没有修改原来的对象。
+>
+> |          |         值传递         |        引用传递        |
+> | -------- | :--------------------: | :--------------------: |
+> | 根本区别 |     会创建副本对象     |     不创建副本对象     |
+> | 所以     | 函数中无法改变原始对象 | 函数中可以改变原始对象 |
 
 #### 封装、继承、多态
 
 什么是多态、方法重写与重载
 
+> 重载：同一个类中的方法，有相同的函数名，但是有不同的参数列表
+>
+> 重写：子类重写父类方法
+>
+> https://www.hollischuang.com/archives/1308
+
+为什么函数签名没有返回值？
+
+> 只要编译器可以根据语境明确判断出语义，比如在int x =f()中，那么的确可以据此却分重载方法。不过，有时你并不关心方法的返回值，你想要的是方法调用的其他效果，这时你可能会调用方法而忽略其返回值。所以，如果像下面这样调用方法：
+> f()；
+>
+> https://bluestar.iteye.com/blog/416527
+
 Java的继承与实现
 
+> implements 可以实现多重继承
+
+interface 和 abstract 区别？
+
+> 
+>
+> https://data-flair.training/blogs/java-extends-vs-implements/
+
 构造函数与默认构造函数
+
+
 
 类变量、成员变量和局部变量
 
@@ -56,11 +148,57 @@ Java的继承与实现
 
 什么是浮点型？什么是单精度和双精度？为什么不能用浮点型表示金额？
 
+> 浮点数会有精度丢失的问题，可以用 BigDecimal
+>
+> https://blog.csdn.net/bruce128/article/details/52529734
+
 #### 自动拆装箱
 
 什么是包装类型、什么是基本类型、什么是自动拆装箱
 
 Integer的缓存机制
+
+> -128 ~ 127 缓存
+>
+> 可以通过vm potion `-XX:AutoBoxCacheMax=1000`可以修改，注意最小也是127。
+>
+> ```java
+>     /**
+>      * Cache to support the object identity semantics of autoboxing for values between
+>      * -128 and 127 (inclusive) as required by JLS.
+>      *
+>      * The cache is initialized on first usage.  The size of the cache
+>      * may be controlled by the {@code -XX:AutoBoxCacheMax=<size>} option.
+>      * During VM initialization, java.lang.Integer.IntegerCache.high property
+>      * may be set and saved in the private system properties in the
+>      * sun.misc.VM class.
+>      */
+> 
+>     private static class IntegerCache {
+>         static final int low = -128;
+>         static final int high;
+>         static final Integer cache[];
+> 
+>         static {
+>             // high value may be configured by property
+>             int h = 127;
+>             String integerCacheHighPropValue =
+>                 sun.misc.VM.getSavedProperty("java.lang.Integer.IntegerCache.high");
+>             if (integerCacheHighPropValue != null) {
+>                 try {
+>                     int i = parseInt(integerCacheHighPropValue);
+>                     i = Math.max(i, 127);
+>                     // Maximum array size is Integer.MAX_VALUE
+>                     h = Math.min(i, Integer.MAX_VALUE - (-low) -1);
+>                 } catch( NumberFormatException nfe) {
+>                     // If the property cannot be parsed into an int, ignore it.
+>                 }
+>             }
+> ```
+>
+> Integer的缓存上限可以通过Java虚拟机参数修改，Byte、Short、Long、Character的缓存则没法修改。
+>
+> https://www.jianshu.com/p/c12ab3f675cc
 
 #### String
 
@@ -81,6 +219,28 @@ switch对String的支持
 #### 熟悉Java中各种关键字
 
 transient、instanceof、volatile、synchronized、final、static、const 原理及用法。
+
+> transient：控制变量的序列化，在变量声明前加上该关键字，可以阻止该变量被序列化到文件中，在被反序列化后，transient 变量的值被设为初始值，如 int 型的是 0，对象型的是 null。
+>
+> https://www.hollischuang.com/archives/1150
+>
+> serialVersionUID：控制反序列化
+>
+> https://github.com/husterxsp/java-learning/blob/master/daily/083-serialVersionUID.md
+>
+> instanceof：判断是否有父类、子类以及实现接口的关系
+>
+> https://stackoverflow.com/questions/7526817/use-of-instance-of-in-java
+>
+> volatile：原子性、可见性（参见《java并发编程的艺术》）
+>
+> synchronized：通过字节码指令`monitorenter`和`monitorexit` 加锁（参见《java并发编程的艺术》）
+>
+> final：
+>
+> static：
+>
+> const：
 
 #### 集合类
 
@@ -754,7 +914,7 @@ redis、memcached
 
 #### Solr，Lucene，ElasticSearch
 
-在linux上部署solr，solrcloud，，新增、删除、查询索引
+在linux上部署solr，solrcloud，，新增、删除、查询索引、倒排索引
 
 #### Storm，流式计算，了解Spark，S4
 
