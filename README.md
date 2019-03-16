@@ -4,7 +4,6 @@
 
 ![](https://img.shields.io/badge/version-v2.0.0-green.svg) ![](https://img.shields.io/badge/author-Hollis-yellow.svg) ![](https://img.shields.io/badge/license-GPL-blue.svg)
 
-分章分节介绍所有知识点，详见[目录](/catalog/catalog.md)。欢迎关注。
 
 | 主要版本 | 更新时间       | 备注             |
 | ---- | ---------- | -------------- |
@@ -26,7 +25,7 @@
 > [https://zhuanlan.zhihu.com/p/28427324](https://zhuanlan.zhihu.com/p/28427324)
 
 
-面向对象的三大基本特征和五大基本原则
+面向对象的[三大基本特征](/basics/java-basic/characteristics.md)和[五大基本原则](/basics/java-basic/principle.md)
 
 > 《think in java》第一章有介绍
 >
@@ -46,7 +45,6 @@
 >
 > http://www.cnblogs.com/hnrainll/archive/2012/09/18/2690846.html
 >
-> 
 >
 > 组合优于继承，组合确实比继承更加灵活，也更有助于代码维护。
 >
@@ -54,7 +52,7 @@
 >
 > 组合 vs 继承：https://www.hollischuang.com/archives/1319
 >
-> 
+>
 >
 > 单一职责原则：一个类，最好只做一件事
 >
@@ -72,13 +70,15 @@
 
 Java如何实现的平台无关
 
+
 > 平台无关有两种：源代码级和目标代码级。
 >
 > 我们常说的跨平台，或者平台无关，指的就是目标代码，或者说是软件交付件跨平台。
 >
 > Java源码编译出来的字节码文件，JVM会解析翻译成机器语言，即JVM帮我们把字节码翻译成机器语言的过程中就已经充分考虑到对应平台的特性了。
 
-JVM还支持哪些语言（Kotlin、Groovy、JRuby、Jython、Scala）
+
+[JVM还支持哪些语言（Kotlin、Groovy、JRuby、Jython、Scala）](/basics/java-basic/jvm-language.md)
 
 > ErJang、Clojure
 >
@@ -94,7 +94,7 @@ JVM还支持哪些语言（Kotlin、Groovy、JRuby、Jython、Scala）
 >
 > https://www.zhihu.com/question/31203609/answer/50992895
 
-为什么说Java中只有值传递
+[为什么说Java中只有值传递](/basics/java-basic/java-pass-by.md)
 
 > 当传入引用类型的时候，传入的是引用类型的地址，当修改这个传入变量的地址后，其实已经是在修改另一个对象了，所以说并没有修改原来的对象。
 >
@@ -105,7 +105,7 @@ JVM还支持哪些语言（Kotlin、Groovy、JRuby、Jython、Scala）
 
 #### 封装、继承、多态
 
-什么是多态、方法重写与重载
+什么是多态、[方法重写与重载](/basics/java-basic/overloading-vs-overriding.md)
 
 > 重载：同一个类中的方法，有相同的函数名，但是有不同的参数列表
 >
@@ -126,7 +126,7 @@ Java的继承与实现
 
 interface 和 abstract 区别？
 
-> 
+>
 >
 > https://data-flair.training/blogs/java-extends-vs-implements/
 
@@ -134,7 +134,7 @@ interface 和 abstract 区别？
 
 
 
-类变量、成员变量和局部变量
+[类变量、成员变量和局部变量](/basics/java-basic/variable.md)
 
 成员变量和方法作用域
 
@@ -154,9 +154,9 @@ interface 和 abstract 区别？
 
 #### 自动拆装箱
 
-什么是包装类型、什么是基本类型、什么是自动拆装箱
+[什么是包装类型、什么是基本类型、什么是自动拆装箱](/basics/java-basic/boxing-unboxing.md)
 
-Integer的缓存机制
+[Integer的缓存机制](/basics/java-basic/integer-cache.md)
 
 > -128 ~ 127 缓存
 >
@@ -173,12 +173,12 @@ Integer的缓存机制
 >      * may be set and saved in the private system properties in the
 >      * sun.misc.VM class.
 >      */
-> 
+>
 >     private static class IntegerCache {
 >         static final int low = -128;
 >         static final int high;
 >         static final Integer cache[];
-> 
+>
 >         static {
 >             // high value may be configured by property
 >             int h = 127;
@@ -202,9 +202,9 @@ Integer的缓存机制
 
 #### String
 
-字符串的不可变性
+[字符串的不可变性](/basics/java-basic/final-string.md)
 
-JDK 6和JDK 7中substring的原理及区别、
+[JDK 6和JDK 7中substring的原理及区别](/basics/java-basic/substring.md)
 
 replaceFirst、replaceAll、replace区别、
 
@@ -212,7 +212,7 @@ String对“+”的重载、字符串拼接的几种方式和区别
 
 String.valueOf和Integer.toString的区别、
 
-switch对String的支持
+[switch对String的支持](/basics/java-basic/switch-string.md)
 
 字符串池、常量池（运行时常量池、Class常量池）、intern
 
@@ -322,7 +322,7 @@ Spring常用注解
 
 限定通配符和非限定通配符、上下界限定符extends 和 super
 
-List<Object>和原始类型List之间的区别? 
+List<Object>和原始类型List之间的区别?
 
 List<?>和List<Object>之间的区别是什么?
 
@@ -634,7 +634,7 @@ Hibernate的懒加载
 
 Hibernate/Ibatis/MyBatis之间的区别
 
-#### Spring 
+#### Spring
 
 Bean的初始化
 
@@ -844,7 +844,7 @@ Hash索引、B树索引（B+树、和B树、R树）
 
 #### 数据库主备搭建
 
-#### binlog 
+#### binlog
 
 #### redolog
 
@@ -894,9 +894,9 @@ redis、memcached
 
 不稳定的排序：选择排序、希尔排序、Clover排序算法、梳排序、堆排序、平滑排序、快速排序、内省排序、耐心排序
 
-各种排序算法和时间复杂度 
+各种排序算法和时间复杂度
 
-#### 深度优先和广度优先搜索 
+#### 深度优先和广度优先搜索
 
 #### 全排列、贪心算法、KMP算法、hash算法
 
@@ -1100,18 +1100,18 @@ Groovy、Python、Go、NodeJs、Swift、Rust
 
 ## 六、 推荐书籍
 
-《深入理解Java虚拟机》 
-《Effective Java》 
-《深入分析Java Web技术内幕》 
-《大型网站技术架构》 
-《代码整洁之道》 
-《架构整洁之道》 
-《Head First设计模式》 
-《maven实战》 
-《区块链原理、设计与应用》 
-《Java并发编程实战》 
-《鸟哥的Linux私房菜》 
-《从Paxos到Zookeeper》 
+《深入理解Java虚拟机》
+《Effective Java》
+《深入分析Java Web技术内幕》
+《大型网站技术架构》
+《代码整洁之道》
+《架构整洁之道》
+《Head First设计模式》
+《maven实战》
+《区块链原理、设计与应用》
+《Java并发编程实战》
+《鸟哥的Linux私房菜》
+《从Paxos到Zookeeper》
 《架构即未来》
 
 -------------
@@ -1119,4 +1119,3 @@ Groovy、Python、Go、NodeJs、Swift、Rust
 扫描二维码，关注Hollis，所有内容第一时间在公众号更新
 
 ![](http://www.hollischuang.com/wp-content/uploads/2018/10/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96-1.png)
-
