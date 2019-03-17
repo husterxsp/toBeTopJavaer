@@ -210,7 +210,7 @@ replaceFirst、replaceAll、replace区别、
 
 String对“+”的重载、字符串拼接的几种方式和区别
 
-String.valueOf和Integer.toString的区别、
+String.valueOf和Integer.toString的区别
 
 [switch对String的支持](/basics/java-basic/switch-string.md)
 
@@ -276,31 +276,169 @@ switch对枚举的支持
 
 字符流、字节流、输入流、输出流、
 
+> 知识星球IO专题
+>
+> 字节流逐字节地访问文件。字节流适用于任何类型的文件，但不太适合文本文件（txt文件）。例如，如果文件使用的是unicode编码，而字符用两个字节表示，则字节流将会将这个字符分开处理，因而自己还需要做转换。
+>
+> 字符流将逐个字符地读取文件。需要为字符流提供文件的编码才能正常工作。
+>
+> 字节流类继承自抽象类 InputStream 和 OutputStream。 字符流类继承自抽象类 Reader 和 Writer。
+>
+> 输入输出以内存为参照：输入是从外存读入内存
+>
+> https://github.com/husterxsp/java-learning/blob/master/daily/092-byte-and-character-stream.md
+
+
+
 同步、异步、阻塞、非阻塞、Linux 5种IO模型
 
+> 同步，异步，是描述被调用方的。
+> 阻塞，非阻塞，是描述调用方的。主要是从CPU的消耗上来说的。阻塞就是CPU停下等待。非阻塞看起来效率高，但是会有线程切换的代价。
+>
+>
+>
+> Linux 5种IO模型
+>
+> - 阻塞式IO模型
+> - 非阻塞IO模型
+> - IO复用模型
+> - 信号驱动IO模型
+> - 异步IO模型
+
 BIO、NIO和AIO的区别、三种IO的用法与原理、netty
+
+> BIO：阻塞IO。java.io 下面的实现
+>
+> NIO：非阻塞IO。java.nio下的实现
+>
+> 关键组件 Selector、Channel、Buffer。（《深入分析Java web》）
+>
+> AIO：异步非阻塞。也在java.nio下面，比如 AsynchronousFileChannel。channel.read 返回的是 future对象
+>
+> BIO方式适用于连接数目比较小且固定的架构，这种方式对服务器资源要求比较高，并发局限于应用中，JDK1.4以前的唯一选择，但程序直观简单易理解。
+>
+> NIO方式适用于连接数目多且连接比较短（轻操作）的架构，比如聊天服务器，并发局限于应用中，编程比较复杂，JDK1.4开始支持。
+>
+> AIO方式适用于连接数目多且连接比较长（重操作）的架构，比如相册服务器，充分调用OS参与并发操作，编程比较复杂，JDK7开始支持。
+>
+> netty：Netty 封装了 JDK 的 NIO，不用再写一大堆复杂的代码了。（掘金小册：<https://juejin.im/book/5b4bc28bf265da0f60130116/section/5b4bc28b5188251b1f224ee5>）
 
 #### Java反射与javassist
 
 反射与工厂模式、 反射有什么作用
 
+> **反射** 机制指的是程序在运行时能够获取自身的信息。在java中，只要给定类的名字，那么就可以通过反射机制来获得类的所有属性和方法。（星球直面java系列 140期）
+>
+> 作用：
+>
+> - 在运行时判断任意一个对象所属的类。
+> - 在运行时判断任意一个类所具有的成员变量和方法。
+> - 在运行时任意调用一个对象的方法
+> - 在运行时构造任意一个类的对象
+>
+> 反射有哪些优缺点？
+>
+> 优点
+>
+> - 反射提高了程序的灵活性和扩展性。
+>   缺点
+>
+> - 代码可读性低及可维护性
+>
+> - 反射代码执行的性能低
+>
+> - 破坏了封装性。
+>
+> - 在业务代码中应该尽量避免使用反射。但是，作为一个合格的Java开发，也要能读懂中间件、框架中的反射代码。在有些场景下，要知道可以使用反射解决部分问题。
+>
+> 反射与工厂模式
+> <http://www.hollischuang.com/archives/1163>
+
 Class类
 
 `java.lang.reflect.*`
+
+> Java的Class类是java反射机制的基础,通过Class类我们可以获得关于一个类的相关信息
+>
+> Java.lang.Class是一个比较特殊的类，它用于封装被装入到JVM中的类（包括类和接口）的信息。当一个类或接口被装入的JVM时便会产生一个与之关联的java.lang.Class对象，可以通过这个Class对象对被装入类的详细信息进行访问。
+>
+> 虚拟机为每种类型管理一个独一无二的Class对象。也就是说，每个类（型）都有一个Class对象。运行程序时，Java虚拟机(JVM)首先检查是否所要加载的类对应的Class对象是否已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。（直面java 144）
+>
+>
+>
+> Class.forName(“com.test.Foo”)  加载类
+>
+> 再看
+
+反射的用法？
+
+> 动态代理
+> JDBC的class.forName
+> BeanUtils中属性值的拷贝
+> RPC框架
+> ORM框架
+> Spring的IOC/DI
 
 #### 动态代理
 
 静态代理、动态代理
 
+> 静态代理相当于给原来的方法再包装一层：比如可以记录日志、控制对象访问权限，增强对象功能。
+>
+> 比如可以实现接口，调用委托类的方法。
+>
+> 静态代理，需要写很多代码。然后就有了动态代理。
+>
+> 动态代理中的代理类并不要求在编译期就确定，而是可以在运行期动态生成，从而实现对目标对象的代理功能。
+>
+
 动态代理和反射的关系
+
+> 反射是动态代理的一种实现方式。
 
 动态代理的几种实现方式
 
-AOP
+> jdk动态代理和cglib动态代理
+>
+> <http://www.iocoder.cn/RPC/laoxu/rpc-dynamic-proxy//>
+>
+> [Java中的动态代理有几种实现方式，各有什么优缺点](<https://github.com/husterxsp/java-learning/blob/master/daily/150-Java%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%9C%89%E5%87%A0%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%90%84%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%BC%BA%E7%82%B9.md>)
+>
+> Java Proxy 和 CGLIB 动态代理原理：<http://www.importnew.com/27772.html>
+>
+> - JDK动态代理原理和静态代理类似，只不过是动态生成字节码的。
+>
+> java.lang.reflect 包中的Proxy类和InvocationHandler接口提供了生成动态代理类的能力。
+>
+> Cglib是一个第三方代码生成类库，运行时在内存中动态生成一个子类对象从而实现对目标对象功能的扩展。
+>
+> Cglib与JDK动态代理最大的区别就是：
+>
+> - 使用动态代理的对象必须实现一个或多个接口
+>
+> - 使用cglib代理的对象则无需实现接口，达到代理类无侵入。
+
+问：Java 实现动态代理主要涉及哪几个类？(直面java153)
+
+> java.lang.reflect.Proxy: 这是生成代理类的主类，通过 Proxy 类生成的代理类都继承了 Proxy 类，即 DynamicProxyClass extends Proxy。
+> java.lang.reflect.InvocationHandler: 这里称他为"调用处理器"，他是一个接口，我们动态生成的代理类需要完成的具体内容需要自己定义一个类，而这个类必须实现 InvocationHandler 接口。
+
+
+
+AOP（直面java156）
+
+> 动态代理。
+>
+> Spring AOP中的动态代理主要有两种方式，JDK动态代理和CGLIB动态代理。
+> JDK动态代理通过反射来接收被代理的类，并且要求被代理的类必须实现一个接口。JDK动态代理的核心是InvocationHandler接口和Proxy类。
+> 如果目标类没有实现接口，那么Spring AOP会选择使用CGLIB来动态代理目标类。
+> CGLIB（Code Generation Library），是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB是通过继承的方式做的动态代理，因此如果某个类被标记为**final**，那么它是无法使用CGLIB做动态代理的。
 
 #### 序列化
 
 什么是序列化与反序列化、为什么序列化、序列化底层原理、序列化与单例模式、protobuf、为什么说序列化并不安全
+
+>
 
 #### 注解
 
@@ -486,13 +624,62 @@ Java中的对象一定在堆上分配吗？
 
 GC算法：标记清除、引用计数、复制、标记压缩、分代回收、增量式回收
 
+> 标记清除：效率不高，空间碎片
+>
+> 复制：效率高了，不会有空间碎片，但是代价大，只能用一半的内存空间。
+>
+> - 目前新生代是用这种复制算法，不过不是1：1，而是分为Edgn，Survivor，8：1：1
+> - 当Survivor空间不够用时，由老年代做担保
+>
+> 标记-整理：一半用于老年代，存活对象较多。与标记清除类似，只是清除完之后，所有的对象往一端移动。然后直接清理掉边界外的空间。
+>
+> 分代回收：分为新生代和老年代
+
+GCRoots有哪些？
+
+> 所谓“GC roots”，或者说tracing GC的“根集合”，就是**一组必须活跃的引用**。
+>
+> java的gc为什么要分代？ - RednaxelaFX的回答 - 知乎
+> https://www.zhihu.com/question/53613423/answer/135743258
+
+
+
 GC参数、对象存活的判定、垃圾收集器（CMS、G1、ZGC、Epsilon）
+
+> CMS：并发标记整理
+>
+> G1：Garbage-First（G1）从整体来看基于标记-整理，但是从局部来看（两个region之间），还是基于复制。有非常好的空间整理能力，不会产生空间碎片。
+>
+> （具体还是以实测为准，基准测试?）
+>
+> - G1虽然也还有新生代和老生代的概念，但不是物理的隔离了。
+
+什么情况下会发生full GC?
+
+> 标记清除算法产生较多空间碎片，需要分配一个连续较大空间时会容易发生FGC
+
+Major GC和Full GC的区别是什么？触发条件呢？ - RednaxelaFX的回答 - 知乎
+https://www.zhihu.com/question/41922036/answer/93079526
 
 #### JVM参数及调优
 
 -Xmx、-Xmn、-Xms、Xss、-XX:SurvivorRatio、
 
 -XX:PermSize、-XX:MaxPermSize、-XX:MaxTenuringThreshold
+
+> -Xmx：最大堆容量，mx表示 memory max
+>
+> -Xms：最小堆容量，ms表示 memory start
+>
+> -Xmn：年轻代大小
+>
+> -Xss：线程栈容量
+>
+> -XX:SurvivorRatio：年轻代中 Eden区与Survivor区的大小比值
+>
+> -XX:MaxTenuringThreshold：垃圾最大年龄。如果设置为0的话,则年轻代对象不经过Survivor区,直接进入年老代. 对于年老代比较多的应用,可以提高效率。
+
+<https://www.cnblogs.com/redcreen/archive/2011/05/04/2037057.html>
 
 #### Java对象模型
 
@@ -624,6 +811,8 @@ filter和listener
 
 web.xml中常用配置及作用
 
+
+
 #### Hibernate
 
 什么是OR Mapping
@@ -744,7 +933,11 @@ jstack、jstat、jmap、jhat、Arthas
 
 #### 自己编写各种outofmemory，stackoverflow程序
 
-HeapOutOfMemory、 Young OutOfMemory、MethodArea OutOfMemory、ConstantPool OutOfMemory、DirectMemory OutOfMemory、Stack OutOfMemory Stack OverFlow
+HeapOutOfMemory、 Young OutOfMemory、MethodArea OutOfMemory、ConstantPool OutOfMemory、DirectMemory OutOfMemory、Stack OutOfMemory、 Stack OverFlow
+
+> [outofmemory.md](./answer/outofmemory.md)
+
+
 
 #### Arthas
 
@@ -773,6 +966,10 @@ options、管道、后台异步任务
 如何判断是否存在内存泄露
 
 使用Arthas快速排查Spring Boot应用404/401问题
+
+> https://github.com/alibaba/arthas/issues/429
+>
+>
 
 使用Arthas排查线上应用日志打满问题
 
