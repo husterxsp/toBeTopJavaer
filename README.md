@@ -11,13 +11,15 @@
 | v1.1 | 2018-03-12 | 增加新技术知识、完善知识体系 |
 | v2.0 | 2019-02-19 | 结构调整，更适合从入门到精通；<br>进一步完善知识体系； <br>新技术补充；|
 
+
+
 ## 一、基础篇
 
 ### 面向对象
 
 #### 什么是面向对象
 
-面向对象、面向过程
+[面向对象、面向过程](/basics/java-basic/object-oriented-vs-procedure-oriented.md)
 
 > 面向过程：以事件为中心，按照时间发生的顺序，调用一系列函数。开发简单但是不易于维护。
 >
@@ -25,7 +27,8 @@
 > [https://zhuanlan.zhihu.com/p/28427324](https://zhuanlan.zhihu.com/p/28427324)
 
 
-面向对象的[三大基本特征](/basics/java-basic/characteristics.md)和[五大基本原则](/basics/java-basic/principle.md)
+[面向对象的三大基本特征](/basics/java-basic/characteristics.md)和[五大基本原则](/basics/java-basic/principle.md)
+
 
 > 《think in java》第一章有介绍
 >
@@ -68,7 +71,7 @@
 
 #### 平台无关性
 
-Java如何实现的平台无关
+[Java如何实现的平台无关性的](/basics/java-basic/platform-independent.md)
 
 
 > 平台无关有两种：源代码级和目标代码级。
@@ -88,7 +91,7 @@ Java如何实现的平台无关
 
 #### 值传递
 
-值传递、引用传递
+[值传递、引用传递](/basics/java-basic/java-pass-by.md)
 
 > 基本类型一般是值传递、引用类型一般是引用传递
 >
@@ -105,7 +108,7 @@ Java如何实现的平台无关
 
 #### 封装、继承、多态
 
-什么是多态、[方法重写与重载](/basics/java-basic/overloading-vs-overriding.md)
+[什么是多态](/basics/java-basic/polymorphism.md)、[方法重写与重载](/basics/java-basic/overloading-vs-overriding.md)
 
 > 重载：同一个类中的方法，有相同的函数名，但是有不同的参数列表
 >
@@ -122,6 +125,7 @@ Java如何实现的平台无关
 
 Java的继承与实现
 
+
 > implements 可以实现多重继承
 
 interface 和 abstract 区别？
@@ -130,19 +134,28 @@ interface 和 abstract 区别？
 
 构造函数与默认构造函数
 
+[Java的继承与组合](/basics/java-basic/inheritance-composition.md)
+
+[构造函数与默认构造函数](/basics/java-basic/constructor.md)
+
+
 [类变量、成员变量和局部变量](/basics/java-basic/variable.md)
 
-成员变量和方法作用域
+[成员变量和方法作用域](/basics/java-basic/scope.md)
 
 ### Java基础知识
 
 #### 基本数据类型
 
-7种基本数据类型：整型、浮点型、布尔型、字符型
+[7种基本数据类型：整型、浮点型、布尔型、字符型](/basics/java-basic/basic-data-types.md)
 
-整型中byte、short、int、long的取值范围
+[整型中byte、short、int、long的取值范围](/basics/java-basic/integer-scope.md)
 
-什么是浮点型？什么是单精度和双精度？为什么不能用浮点型表示金额？
+[什么是浮点型？](/basics/java-basic/float.md)
+
+[什么是单精度和双精度？](/basics/java-basic/single-double-float.md)
+
+[为什么不能用浮点型表示金额？](/basics/java-basic/float-amount.md)
 
 > 浮点数会有精度丢失的问题，可以用 BigDecimal
 >
@@ -204,7 +217,9 @@ interface 和 abstract 区别？
 
 replaceFirst、replaceAll、replace区别、
 
-String对“+”的重载、字符串拼接的几种方式和区别
+[String对“+”的重载](/basics/java-basic/string-append.md)
+
+[字符串拼接的几种方式和区别](/basics/java-basic/string-concat.md)
 
 String.valueOf和Integer.toString的区别
 
@@ -240,11 +255,11 @@ transient、instanceof、volatile、synchronized、final、static、const 原理
 
 #### 集合类
 
-常用集合类的使用、ArrayList和LinkedList和Vector的区别 、SynchronizedList和Vector的区别、HashMap、HashTable、ConcurrentHashMap区别、
+常用集合类的使用、ArrayList和LinkedList和Vector的区别 、[SynchronizedList和Vector的区别](/basics/java-basic/synchronizedlist-vector.md)、HashMap、HashTable、ConcurrentHashMap区别、
 
 Set和List区别？Set如何保证元素不重复？
 
-Java 8中stream相关用法、apache集合处理工具类的使用、不同版本的JDK中HashMap的实现的区别以及原因
+[Java 8中stream相关用法](/basics/java-basic/stream.md)、apache集合处理工具类的使用、不同版本的JDK中HashMap的实现的区别以及原因
 
 Collection和Collections区别
 
@@ -264,7 +279,7 @@ Java枚举如何比较
 
 switch对枚举的支持
 
-枚举的序列化如何实现
+[枚举的序列化如何实现](/basics/java-basic/enum-serializable.md)
 
 枚举的线程安全性问题
 
@@ -492,7 +507,7 @@ Spring常用注解
 
 #### 泛型
 
-泛型与继承、类型擦除、泛型中K T V E ？ object等的含义、泛型各种用法
+泛型与继承、类型擦除、泛型中K T V E ？ [object等的含义](/basics/java-basic/k-t-v-e.md)、泛型各种用法
 
 限定通配符和非限定通配符、上下界限定符extends 和 super
 
@@ -680,7 +695,7 @@ CAS、乐观锁与悲观锁、数据库相关锁机制、分布式锁、偏向�
 
 #### synchronized
 
-synchronized是如何实现的？
+[synchronized是如何实现的？](/basics/java-basic/synchronized.md)
 
 synchronized和lock之间关系、不使用synchronized如何实现一个线程安全的单例
 
@@ -1532,6 +1547,6 @@ Groovy、Python、Go、NodeJs、Swift、Rust
 
 -------------
 
-扫描二维码，关注Hollis，所有内容第一时间在公众号更新
+扫描二维码，关注作者微信
 
 ![](http://www.hollischuang.com/wp-content/uploads/2018/10/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%BE%8E%E5%8C%96-1.png)
