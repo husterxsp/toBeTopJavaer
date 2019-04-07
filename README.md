@@ -126,13 +126,9 @@ Java的继承与实现
 
 interface 和 abstract 区别？
 
->
->
 > https://data-flair.training/blogs/java-extends-vs-implements/
 
 构造函数与默认构造函数
-
-
 
 [类变量、成员变量和局部变量](/basics/java-basic/variable.md)
 
@@ -406,6 +402,8 @@ Class类
 >
 > Java Proxy 和 CGLIB 动态代理原理：<http://www.importnew.com/27772.html>
 >
+> FastClass：<https://www.jianshu.com/p/13aa63e1ac95>
+>
 > - JDK动态代理原理和静态代理类似，只不过是动态生成字节码的。
 >
 > java.lang.reflect 包中的Proxy类和InvocationHandler接口提供了生成动态代理类的能力。
@@ -415,8 +413,8 @@ Class类
 > Cglib与JDK动态代理最大的区别就是：
 >
 > - 使用动态代理的对象必须实现一个或多个接口
->
 > - 使用cglib代理的对象则无需实现接口，达到代理类无侵入。
+> - cglib是通过继承来实现的代理。
 
 问：Java 实现动态代理主要涉及哪几个类？(直面java153)
 
@@ -438,13 +436,51 @@ AOP（直面java156）
 
 什么是序列化与反序列化、为什么序列化、序列化底层原理、序列化与单例模式、protobuf、为什么说序列化并不安全
 
+><http://www.hollischuang.com/archives/1150>
 >
+>序列化是将对象转换为可传输格式的过程。 是一种数据的持久化手段。一般广泛应用于网络传输，RMI和RPC等场景中。
+>
+>Serializable接口：
+>
+>Externalizable接口：需要重写writeExternal()与readExternal()
+>
+>序列化会破坏单例模式
+>
+>- 因为 序列化会通过反射调用无参数的构造方法创建一个新的对象。
+>
+><https://www.hollischuang.com/archives/1144>
+>
+>protobuf：一种序列化协议
+>
+>安全性：<https://www.secpulse.com/archives/60819.html>
+>
+>- 由于对象序列化是遵循标准协议的，所以可以轻易地分析出流中的信息，并且可以进行篡改
+>- 解决
+>  - 对数据加密
+>  - 对传输加密
+>  - 使用transient字段，敏感字段不序列化
 
 #### 注解
 
 元注解、自定义注解、Java中常用注解使用、注解与反射的结合
 
+> 元注解：定义其他注解的注解 。元注解有四个:@Target（表示该注解可以用于什么地方）、@Retention（表示再什么级别保存该注解信息）、@Documented（将此注解包含再javadoc中）、@Inherited（允许子类继承父类中的注解）
+>
+> 自定义注解：除了元注解，都是自定义注解。通过元注解定义出来的注解。如我们常用的Override 、Autowire等。日常开发中也可以自定义一个注解，这些都是自定义注解。
+>
+> JDK内置的常用注解：
+>
+> 1.@Override 表示当前方法覆盖了父类的方法
+> 2.@Deprecation 表示方法已经过时,方法上有横线，使用时会有警告。
+> 3.@SuppressWarnings 表示关闭一些警告信息(通知java编译器忽略特定的编译警告)
+>
+>
+
 Spring常用注解
+
+> 1. @Component指的是组件，
+>   @Controller，@Repository和@Service 注解都被@Component修饰，用于代码中区分表现层，持久层和业务层的组件，代码中组件不好归类时可以使用@Component来标注
+> 2. 当前版本只有区分的作用，未来版本可能会添加更丰富的功能
 
 #### JMS
 
@@ -481,6 +517,22 @@ junit、mock、mockito、内存数据库（h2）
 API、API和SPI的关系和区别
 
 如何定义SPI、SPI的实现原理
+
+> SPI：调用方来制定接口，实现方来针对接口来实现不同的实现。调用方来选择自己需要的实现方。
+>
+> 通过线程上下文类加载器去加载所需要的SPI代码。也就是父加载器请求子类加载器去完成类加载的动作。
+>
+> 读取META-INF/services/下的配置文件，获得所有能被实例化的类的名称
+>
+> 通过反射方法Class.forName()加载类对象，并用instance()方法将类实例化
+
+
+
+什么是JNDI？
+
+> <https://docs.oracle.com/javase/tutorial/jndi/overview/index.html>
+>
+>
 
 #### 异常
 
@@ -526,6 +578,10 @@ Java中语法糖原理、解语法糖
 
 String、Integer、Long、Enum、BigDecimal、ThreadLocal、ClassLoader & URLClassLoader、ArrayList & LinkedList、 HashMap & LinkedHashMap & TreeMap & CouncurrentHashMap、HashSet & LinkedHashSet & TreeSet
 
+> HashMap：循环死锁问题，<https://coolshell.cn/articles/9606.html>
+>
+>
+
 ### Java并发编程
 
 #### 并发与并行
@@ -552,11 +608,69 @@ String、Integer、Long、Enum、BigDecimal、ThreadLocal、ClassLoader & URLCla
 
 死锁、死锁如何排查、线程安全和内存模型的关系
 
+> jstack 查看线程状态：
+>
+> ```
+> java.lang.Thread.State: WAITING (on object monitor)
+> 
+> Found one Java-level deadlock:
+> 
+> ...
+> ```
+>
+>
+
 #### 锁
 
 CAS、乐观锁与悲观锁、数据库相关锁机制、分布式锁、偏向锁、轻量级锁、重量级锁、monitor、
 
 锁优化、锁消除、锁粗化、自旋锁、可重入锁、阻塞锁、死锁
+
+> CAS：compareAndSwap。一般是和循环一块儿使用。由底层C语言代码负责保证原子性。加锁。
+>
+> 这里说是给总线加锁？<https://juejin.im/post/5a73cbbff265da4e807783f5>
+>
+> CAS的问题：ABA问题。循环CPU消耗。解决使用版本号。
+>
+> ---
+>
+> 都是用在数据库里的。
+>
+> “悲观锁”，Pessimistic Concurrency Control，缩写“PCC”
+>
+> “乐观锁”，Optimistic Concurrency Control，缩写“OCC”
+>
+> <https://www.hollischuang.com/archives/934>
+>
+> ---
+>
+> 分布式锁的几种实现方式：<https://www.hollischuang.com/archives/1716>
+>
+> Zookeeper > 缓存 > 数据库
+>
+> Zookeeper分布式锁要详细了解。
+>
+> ---
+>
+> 偏向锁：对象头和栈帧的锁记录里存储偏向的线程ID，这样下次该线程进出同步块的时候不用CAS来加锁和解锁了，测试简单测试一下对象头里的标记。
+>
+> 轻量级锁：循环CAS设置。如果设置失败，会膨胀为重量级锁，即阻塞。？
+>
+> monitor：监视器。
+>
+> - <https://www.hollischuang.com/archives/2030>
+> - <https://stackoverflow.com/questions/3362303/whats-a-monitor-in-java>
+> - <https://dymanzy.github.io/2017/08/07/synchronized%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84Monitor/>
+>
+> monitor是一种机制，负责管理同步代码块的访问？每个对应的加锁的对象都有一个monitor对象？底层C实现的monitor对象。。。?其实底层是monitor在负责维护等待队列。
+>
+> ----
+>
+> 锁优化、粗化：<https://www.cnblogs.com/paddix/p/5405678.html>
+>
+> 锁粗化（Lock Coarsening）：锁粗化的概念应该比较好理解，就是将多次连接在一起的加锁、解锁操作合并为一次，将多个连续的锁扩展成一个范围更大的锁。
+>
+>
 
 #### 死锁
 
@@ -603,6 +717,8 @@ Thread、Runnable、Callable、ReentrantLock、ReentrantReadWriteLock、Atomic*�
 ## 二、底层篇
 
 ### JVM
+
+Client 和 Server 模式？
 
 #### JVM内存结构
 
@@ -699,7 +815,35 @@ Arthas
 
 classLoader、类加载过程、双亲委派（破坏双亲委派）、模块化（jboss modules、osgi、jigsaw）
 
+> 深度分析Java的ClassLoader机制：<https://www.hollischuang.com/archives/199>
+>
+> ```java
+> public abstract class ClassLoader {
+> }
+> ```
+>
+> 三个类加载器
+>
+> **根装载器**
+>
+> `ExtClassLoader`(**扩展类装载器**)
+>
+> `AppClassLoader`，其中根装载器不是ClassLoader的子类，由C++编写，因此在java中看不到
+>
+> “**委托机制**”是指先委托父类装载器寻找目标类，只有在找不到的情况下才从自己的类路径中查找并装载目标类。
+>
+> 所以即便用户写了一个String类，也是加载不进去的。
+>
+> ---
+>
+> 破坏双亲委派：
+>
+> - <https://blog.csdn.net/u012129558/article/details/81540804>
+> - <https://blog.csdn.net/u014590757/article/details/80190998>
+
 ### 编译与反编译
+
+
 
 什么是编译（前端编译、后端编译）、什么是反编译
 
@@ -739,11 +883,25 @@ JIT、JIT优化（逃逸分析、栈上分配、标量替换、锁优化）
 
 行为型模式：模版方法模式、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式（Interpreter模式）、状态模式、策略模式、职责链模式(责任链模式)、访问者模式。
 
+> 享元模式：底层的数据共享
+>
+>
+
 #### 会使用常用设计模式
 
 单例的七种写法：懒汉——线程不安全、懒汉——线程安全、饿汉、饿汉——变种、静态内部类、枚举、双重校验锁
 
+> - <https://www.jianshu.com/p/61b67ca754a3>
+> - <https://github.com/youlookwhat/DesignPattern/blob/master/app/src/main/java/com/example/jingbin/designpattern/singleton/ehan/SingletonEHan.java>
+> - <https://github.com/youlookwhat/DesignPattern/blob/master/app/src/main/java/com/example/jingbin/designpattern/singleton/lanhan/SingletonLanHan.java>
+>
+>
+
 工厂模式、适配器模式、策略模式、模板方法模式、观察者模式、外观模式、代理模式等必会
+
+
+
+
 
 #### 不用synchronized和lock，实现线程安全的单例模式
 
@@ -805,13 +963,23 @@ DNS污染、DNS劫持、公共DNS：114 DNS、Google DNS、OpenDNS
 
 生命周期
 
+> Servlet的生命周期有四个阶段：加载并实例化、初始化、请求处理、销毁。
+>
+> <https://blog.csdn.net/qq_24145735/article/details/52433096>
+
 线程安全问题
+
+> Servlet不是线程安全的。
+>
+> 当Tomcat接收到Client的HTTP请求时，Tomcat从线程池中取出一个线程，之后找到该请求对应的Servlet对象并进行初始化，之后调用service()方法。要注意的是每一个Servlet对象再Tomcat容器中只有一个实例对象，即是单例模式。如果多个HTTP请求请求的是同一个Servlet，那么着两个HTTP请求对应的线程将并发调用Servlet的service()方法。
+>
+> <https://www.cnblogs.com/chanshuyi/p/5052426.html>
 
 filter和listener
 
 web.xml中常用配置及作用
 
-
+[servlet-demo>](<https://github.com/husterxsp/servlet-demo>)
 
 #### Hibernate
 
@@ -849,11 +1017,21 @@ Spring Boot的starter原理，自己实现一个starter
 
 ### Spring Cloud
 
+<https://juejin.im/post/5be13b83f265da6116393fc7>
+
 服务发现与注册：Eureka、Zookeeper、Consul
+
+>
 
 负载均衡：Feign、Spring Cloud Loadbalance
 
+> Feign是封装Restful 请求的，底层用的ribbon才是负载均衡。
+>
+> - 对某个接口定义了@FeignClient注解，Feign就会针对这个接口创建一个**动态代理**
+
 服务配置：Spring Cloud Config
+
+>
 
 服务限流与熔断：Hystrix
 
@@ -1025,15 +1203,46 @@ Hash索引、B树索引（B+树、和B树、R树）
 
 覆盖索引、最左前缀原则、索引下推
 
+
+
+OLTP和OLAP：
+
+> OLAP：事务处理on-line transaction processing。我们一般用的都是OLAP
+>
+> OLAP：联机分析处理On-Line Analytical Processing。比如Hive
+
 #### SQL优化
 
 #### 数据库事务和隔离级别
 
 事务的隔离级别、事务能不能实现锁的功能
 
+> 事务隔离级别：
+>
+> - 可串行化
+> - 可重复读
+> - 读已提交
+> - 读未提交
+>
+> <http://www.cnblogs.com/zhoujinyi/p/3437475.html>
+
+ACID是什么意思？
+
+> 原子性
+>
+> 一致性
+>
+> 隔离性
+>
+> 持久性
+
 #### 数据库锁
 
 行锁、表锁、使用数据库锁实现乐观锁、
+
+> 行锁：共享锁、排它锁
+>
+> 表锁：意向锁，意向共享锁、意向排它锁。
 
 #### 连接
 
@@ -1169,6 +1378,14 @@ memcached为什么可以导致DDos攻击、什么是反射型DDoS
 
 2PC、3PC、CAP、BASE、 可靠消息最终一致性、最大努力通知、TCC
 
+> CAP（维基百科）
+>
+> - 一致性（**C**onsistency） （等同于所有节点访问同一份最新的数据副本）
+> - [可用性](https://zh.wikipedia.org/wiki/%E5%8F%AF%E7%94%A8%E6%80%A7)（**A**vailability）（每次请求都能获取到非错的响应——但是不保证获取的数据为最新数据）
+> - [分区容错性](https://zh.wikipedia.org/w/index.php?title=%E7%BD%91%E7%BB%9C%E5%88%86%E5%8C%BA&action=edit&redlink=1)（**P**artition tolerance）（以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择[[3\]](https://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86#cite_note-3)。）。。。。。。就是容忍网络分区。那么容忍网络分区，就要在C和A之间选一个。
+>
+> TCC：
+
 #### Dubbo
 
 服务注册、服务发现，服务治理
@@ -1268,6 +1485,8 @@ Shiro
 ### 区块链
 
 哈希算法、Merkle树、公钥密码算法、共识算法、Raft协议、Paxos 算法与 Raft 算法、拜占庭问题与算法、消息认证码与数字签名
+
+> Paxos算法：
 
 #### 比特币
 
