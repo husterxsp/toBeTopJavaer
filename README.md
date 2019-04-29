@@ -992,6 +992,8 @@ DNS污染、DNS劫持、公共DNS：114 DNS、Google DNS、OpenDNS
 
 filter和listener
 
+> 
+
 web.xml中常用配置及作用
 
 [servlet-demo>](<https://github.com/husterxsp/servlet-demo>)
@@ -1008,7 +1010,13 @@ Hibernate/Ibatis/MyBatis之间的区别
 
 #### Spring
 
+> Bean 的四种作用域：单例、原型、会话、请求
+>
+> 单例的线程安全问题：<https://www.jianshu.com/p/d21b65f7a6b8>
+
 Bean的初始化
+
+> 
 
 AOP原理
 
@@ -1222,7 +1230,7 @@ Hash索引、B树索引（B+树、和B树、R树）
 
 OLTP和OLAP：
 
-> OLAP：事务处理on-line transaction processing。我们一般用的都是OLAP
+> OLTP：事务处理on-line transaction processing。我们一般用的都是OLTP
 >
 > OLAP：联机分析处理On-Line Analytical Processing。比如Hive
 
@@ -1300,6 +1308,12 @@ redis、memcached
 #### 树
 
 二叉树、字典树、平衡树、排序树、B树、B+树、R树、多路树、红黑树
+
+> R树是B树在高维空间的扩展，是一棵平衡树。
+>
+> https://blog.csdn.net/v_JULY_v/article/details/6530142
+>
+> 多路查找树(muitl-way search tree)，其每一个节点的孩子数可以多于两个，且每一个节点处可以存储多个元素
 
 #### 堆
 
