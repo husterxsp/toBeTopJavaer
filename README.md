@@ -13,6 +13,8 @@
 
 
 
+[全套思维导图](/mind-map.md)
+
 ## 一、基础篇
 
 ### 面向对象
@@ -221,7 +223,7 @@ replaceFirst、replaceAll、replace区别、
 
 [字符串拼接的几种方式和区别](/basics/java-basic/string-concat.md)
 
-String.valueOf和Integer.toString的区别
+[String.valueOf和Integer.toString的区别](/basics/java-basic/value-of-vs-to-string.md)
 
 [switch对String的支持](/basics/java-basic/switch-string.md)
 
@@ -255,21 +257,35 @@ transient、instanceof、volatile、synchronized、final、static、const 原理
 
 #### 集合类
 
-常用集合类的使用、ArrayList和LinkedList和Vector的区别 、[SynchronizedList和Vector的区别](/basics/java-basic/synchronizedlist-vector.md)、HashMap、HashTable、ConcurrentHashMap区别、
+常用集合类的使用
 
-Set和List区别？Set如何保证元素不重复？
+[ArrayList和LinkedList和Vector的区别](/basics/java-basic/arraylist-vs-linkedlist-vs-vector.md) 
 
-[Java 8中stream相关用法](/basics/java-basic/stream.md)、apache集合处理工具类的使用、不同版本的JDK中HashMap的实现的区别以及原因
+[SynchronizedList和Vector的区别](/basics/java-basic/synchronizedlist-vector.md)、
 
-Collection和Collections区别
+[HashMap、HashTable、ConcurrentHashMap区别](/basics/java-basic/HashMap-HashTable-ConcurrentHashMap.md)
 
-Arrays.asList获得的List使用时需要注意什么
+[Set和List区别？](/basics/java-basic/set-vs-list.md)
 
-Enumeration和Iterator区别
+[Set如何保证元素不重复?](/basics/java-basic/set-repetition.md)
 
-fail-fast 和 fail-safe
+[Java 8中stream相关用法](/basics/java-basic/stream.md)、
 
-CopyOnWriteArrayList、ConcurrentSkipListMap
+apache集合处理工具类的使用、
+
+不同版本的JDK中HashMap的实现的区别以及原因
+
+[Collection和Collections区别](/basics/java-basic/Collection-vs-Collections.md)
+
+[Arrays.asList获得的List使用时需要注意什么](/basics/java-basic/Arrays-asList.md)
+
+[Enumeration和Iterator区别](/basics/java-basic/Enumeration-vs-Iterator.md)
+
+[fail-fast 和 fail-safe](/basics/java-basic/fail-fast-vs-fail-safe.md)
+
+[CopyOnWriteArrayList](/basics/java-basic/CopyOnWriteArrayList.md)
+
+[ConcurrentSkipListMap](/basics/java-basic/ConcurrentSkipListMap.md)
 
 #### 枚举
 
@@ -621,7 +637,7 @@ String、Integer、Long、Enum、BigDecimal、ThreadLocal、ClassLoader & URLCla
 
 #### 线程安全
 
-死锁、死锁如何排查、线程安全和内存模型的关系
+[死锁？](/basics/java-basic/deadlock-java-level.md)、死锁如何排查、线程安全和内存模型的关系
 
 > jstack 查看线程状态：
 >
@@ -992,7 +1008,11 @@ DNS污染、DNS劫持、公共DNS：114 DNS、Google DNS、OpenDNS
 
 filter和listener
 
-> 
+> [http://www.codebelief.com/article/2017/09/java-web-understand-servlet-filter-listener-via-three-pictures/](http://www.codebelief.com/article/2017/09/java-web-understand-servlet-filter-listener-via-three-pictures/)
+>
+> Filter 是介于 Web 容器和 Servlet 之间的过滤器，用于过滤未到达 Servlet 的请求或者由 Servlet 生成但还未返回响应。
+>
+> Listener 是用于监听某些特定动作的监听器。当特定动作发生时，监听该动作的监听器就会自动调用对应的方法。例如消息的创建和销毁。
 
 web.xml中常用配置及作用
 
@@ -1001,6 +1021,10 @@ web.xml中常用配置及作用
 #### Hibernate
 
 什么是OR Mapping
+
+> 对象-关系映射，内存中的对象到关系数据库的映射
+>
+> [http://www.ruanyifeng.com/blog/2019/02/orm-tutorial.html](http://www.ruanyifeng.com/blog/2019/02/orm-tutorial.html)
 
 Hibernate的缓存机制
 
