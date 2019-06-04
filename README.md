@@ -28,7 +28,6 @@
 > 面向对象：以对象为中心，把涉及到的事物抽象成对象。好处：结构化、模块化，易于维护。
 > [https://zhuanlan.zhihu.com/p/28427324](https://zhuanlan.zhihu.com/p/28427324)
 
-
 [面向对象的三大基本特征](/basics/java-basic/characteristics.md)和[五大基本原则](/basics/java-basic/principle.md)
 
 
@@ -229,6 +228,17 @@ replaceFirst、replaceAll、replace区别、
 
 字符串池、常量池（运行时常量池、Class常量池）、intern
 
+
+
+StringBuilder和StringBuffer？
+
+> StringBuffer的方法都加了 synchronized 。属于比较早期的类，虽然线程安全，但是没啥使用场景?
+>
+> JDK1.5 提供了 StringBuilder.
+>
+> JAVA 中的 StringBuilder 和 StringBuffer 适用的场景是什么？ - 小猪的回答 - 知乎
+> https://www.zhihu.com/question/20101840/answer/164866159
+
 #### 熟悉Java中各种关键字
 
 transient、instanceof、volatile、synchronized、final、static、const 原理及用法。
@@ -368,7 +378,8 @@ BIO、NIO和AIO的区别、三种IO的用法与原理、netty
 > 优点
 >
 > - 反射提高了程序的灵活性和扩展性。
->   缺点
+> 
+> 缺点
 >
 > - 代码可读性低及可维护性
 >
@@ -505,7 +516,12 @@ AOP（直面java156）
 > 2.@Deprecation 表示方法已经过时,方法上有横线，使用时会有警告。
 > 3.@SuppressWarnings 表示关闭一些警告信息(通知java编译器忽略特定的编译警告)
 >
+
+注解是什么？谈谈你的理解？
+
+> 应该是能简化用户编程。
 >
+> "可以理解为是一个标签 "  https://blog.csdn.net/briblue/article/details/73824058
 
 Spring常用注解
 
@@ -609,7 +625,7 @@ Java中语法糖原理、解语法糖
 
 String、Integer、Long、Enum、BigDecimal、ThreadLocal、ClassLoader & URLClassLoader、ArrayList & LinkedList、 HashMap & LinkedHashMap & TreeMap & CouncurrentHashMap、HashSet & LinkedHashSet & TreeSet
 
-> HashMap：循环死锁问题，<https://coolshell.cn/articles/9606.html>
+> HashMap：死循环问题，<https://coolshell.cn/articles/9606.html>
 >
 >
 
@@ -634,6 +650,14 @@ String、Integer、Long、Enum、BigDecimal、ThreadLocal、ClassLoader & URLCla
 自己设计线程池、submit() 和 execute()、线程池原理
 
 为什么不允许使用Executors创建线程池
+
+定时任务？
+
+> ScheduledThreadPoolExecutor
+>
+> 内部会有一个优先队列，每个任务会有一个time，按照time由小到大排序，执行任务之后，再修改时间。
+
+
 
 #### 线程安全
 
@@ -707,13 +731,41 @@ CAS、乐观锁与悲观锁、数据库相关锁机制、分布式锁、偏向�
 
 死锁的原因
 
+> 对资源的竞争
+>
+> 产生死锁的四个必要条件:
+>  (1) 互斥条件:一个资源每次只能被一个进程(线程)使用。
+>  (2) 请求与保持条件:一个进程(线程)因请求资源而阻塞时,对已获得的资源保 
+>
+> 持不放。
+>  (3) 不剥夺条件 : 此进程(线程)已获得的资源,在末使用完之前,不能强行剥夺。
+>
+>  (4) 循环等待条件 : 多个进程(线程)之间形成一种头尾相接的循环等待资源关系。 
+
 死锁的解决办法
+
+> 1. 增加资源，减少消费者？
+> 2. 给资源编号，获取资源按照顺序来
+> 3. 一次性获取所有资源再开始。
 
 #### synchronized
 
 [synchronized是如何实现的？](/basics/java-basic/synchronized.md)
 
-synchronized和lock之间关系、不使用synchronized如何实现一个线程安全的单例
+synchronized和lock之间关系、[不使用synchronized如何实现一个线程安全的单例](https://mp.weixin.qq.com/s?__biz=MjM5OTMyNzQzMg==&mid=2257483772&idx=1&sn=24294a0e5b77aaf1fa671954d766ac3d&chksm=a447f45b93307d4d3baef97695874afc5fa478a399b1f6270ae5b4afdb9f0600eb0a6c9b65f2&mpshare=1&scene=1&srcid=0422XGfdHA1x7ucONJF3ttJt%23rd)
+
+> synchronized是底层jdk实现的监视器锁 monitorenter 、monitorexit
+>
+> Lock的主要实现类ReentrantLock 用的是AQS，而AQS底层用的是volatile
+>
+> ```java
+> /**
+> * The synchronization state.
+> */
+> private volatile int state;
+> ```
+>
+> 
 
 synchronized和原子性、可见性和有序性之间的关系
 
@@ -725,19 +777,59 @@ volatile的实现原理
 
 volatile和原子性、可见性和有序性之间的关系
 
-有了symchronized为什么还需要volatile
+有了synchronized为什么还需要volatile
+
+> synchronized是重量级锁，性能不高
 
 #### sleep 和 wait
 
+> 1
+>
+> sleep会不会释放锁，线程状态是TIME_WAITING
+>
+> sleep()方法正在执行的线程主动让出CPU
+>
+> wait会释放锁，线程状态WAITING
+>
+> 2
+>
+> sleep()方法可以在任何地方使用；wait()方法则只能在同步方法或同步块中使用；
+>
+> 3
+>
+> sleep()是线程线程类（Thread）的方法，调用会暂停此线程指定的时间，但监控依然保持，不会释放对象锁，到时间自动恢复；wait()是Object的方法，调用会放弃对象锁，进入等待队列，待调用notify()/notifyAll()唤醒指定的线程或者所有线程，才会进入锁池，不再次获得对象锁才会进入运行状态；
+>
+> 
+>
+> https://blog.csdn.net/u012050154/article/details/50903326
+
 #### wait 和 notify
+
+> wait的等待队列？wait是jdk底层实现的。
+>
+> notify唤醒等待线程，重新参与cpu调度
 
 #### notify 和 notifyAll
 
+>  notifyAll 唤醒所有 wait 线程
+>
+> notify 只随机唤醒一个 wait 线程
+
 #### ThreadLocal
+
+> 底层实现？
+>
+> 通过静态内部类ThreadLocalMap来保存线程本地变量。
+>
+> 线程终止的时候，这些变量也会被销毁(WeakReference的使用)
 
 #### 写一个死锁的程序
 
 #### 写代码来解决生产者消费者问题
+
+> 用阻塞队列(分类？)
+>
+> 
 
 ### 并发包
 
@@ -745,11 +837,15 @@ volatile和原子性、可见性和有序性之间的关系
 
 Thread、Runnable、Callable、ReentrantLock、ReentrantReadWriteLock、Atomic*、Semaphore、CountDownLatch、、ConcurrentHashMap、Executors
 
+> 
+
 ## 二、底层篇
 
 ### JVM
 
 Client 和 Server 模式？
+
+> 对应JIT即时编译的C1和C2编译器，C2优化程度大一些，所以启动耗时一些。
 
 #### JVM内存结构
 
@@ -759,6 +855,9 @@ class文件格式、运行时数据区：堆、栈、方法区、直接内存、
 
 Java中的对象一定在堆上分配吗？
 
+> - 堆外内存
+> - 逃逸分析判断不会逃逸时，直接栈上分配
+
 #### Java内存模型
 
 计算机内存模型、缓存一致性、MESI协议
@@ -766,6 +865,12 @@ Java中的对象一定在堆上分配吗？
 可见性、原子性、顺序性、happens-before、
 
 内存屏障、synchronized、volatile、final、锁
+
+> https://www.hollischuang.com/archives/2550
+>
+> **JMM是一种规范，目的是解决由于多线程通过共享内存进行通信时，存在的本地内存数据不一致、编译器会对代码指令重排序、处理器会对代码乱序执行等带来的问题。**
+>
+> "Java线程之间的通信由Java内存模型控制，JMM决定了一个线程对共享变量的写入，何时对另一个线程可见。—《并发编程的艺术》"
 
 #### 垃圾回收
 
@@ -842,6 +947,34 @@ jps, jstack, jmap、jstat, jconsole, jinfo, jhat, javap, btrace、TProfiler
 
 Arthas
 
+> jps : 查看正在运行的虚拟机进程
+>
+> jstack : 生成线程快照，可以定位线程长时间停顿的原因，比如死锁，死循环
+>
+> jmap ：生成堆转储快照
+>
+> jhat : 结合jmap使用，分析堆快照文件
+>
+> jconsole : 可视化监控工具，集合了很多功能
+>
+> visual VM ： 多合一故障处理程序
+>
+> jinfo ： 查看和调整虚拟机配置信息
+>
+> jstat ：监视，一些统计数据，比如GC次数，内存占用
+>
+> javap : 反编译
+>
+> btrace : 基于hotspot 的热替换技术，在不停止目标程序的情况下，动态插入一些调试代码。(线上调试比较有用) 
+>
+> - 重写指定类的字节码
+> - https://www.cnblogs.com/fengzheng/p/7416942.html
+>
+> TProfiler ：
+>
+> - https://github.com/alibaba/TProfiler/wiki
+> - TProfiler是一个可以在生产环境长期使用的性能分析工具.它同时支持剖析和采样两种方式,记录方法执行的时间和次数,生成方法热点 对象创建热点 线程状态分析等数据,为查找系统性能瓶颈提供数据支持.
+
 ### 类加载机制
 
 classLoader、类加载过程、双亲委派（破坏双亲委派）、模块化（jboss modules、osgi、jigsaw）
@@ -855,11 +988,11 @@ classLoader、类加载过程、双亲委派（破坏双亲委派）、模块化
 >
 > 三个类加载器
 >
-> **根装载器**
+> **启动类装载器**
 >
 > `ExtClassLoader`(**扩展类装载器**)
 >
-> `AppClassLoader`，其中根装载器不是ClassLoader的子类，由C++编写，因此在java中看不到
+> `AppClassLoader`（应用程序类加载器），其中根装载器不是ClassLoader的子类，由C++编写，因此在java中看不到
 >
 > “**委托机制**”是指先委托父类装载器寻找目标类，只有在找不到的情况下才从自己的类路径中查找并装载目标类。
 >
@@ -871,6 +1004,20 @@ classLoader、类加载过程、双亲委派（破坏双亲委派）、模块化
 >
 > - <https://blog.csdn.net/u012129558/article/details/81540804>
 > - <https://blog.csdn.net/u014590757/article/details/80190998>
+>
+> tomcat是怎么打破双亲委派模型的？
+>
+> ----
+>
+> 为什么要双亲委派？保证基础类的统一。
+>
+> 为什么需要破坏？一般情况下，是用户class依赖一些上层的基础类，所以双亲委派没啥问题，但是，基础类也可能引用下层的用户代码，比如SPI，jdbc。这时候需要破坏双亲委派(因为没有下层的基础类委托，所以上层的找不到就是找不到了。这时候需要上下文类加载器，通过这个直接委托下层的类加载器去加载。)
+>
+> 另外就是一些热替换的情况？！
+
+类加载过程：应该聊啥？双亲委派？字节码解析？
+
+
 
 ### 编译与反编译
 
@@ -932,9 +1079,11 @@ JIT、JIT优化（逃逸分析、栈上分配、标量替换、锁优化）
 
 
 
+[如何正确地写出单例模式]([http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/](http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/))
 
 
-#### 不用synchronized和lock，实现线程安全的单例模式
+
+#### 不用synchronized和lock [实现线程安全的单例模式](https://mp.weixin.qq.com/s?__biz=MjM5OTMyNzQzMg==&mid=2257483772&idx=1&sn=24294a0e5b77aaf1fa671954d766ac3d&chksm=a447f45b93307d4d3baef97695874afc5fa478a399b1f6270ae5b4afdb9f0600eb0a6c9b65f2&mpshare=1&scene=1&srcid=0422XGfdHA1x7ucONJF3ttJt%23rd)
 
 #### 实现AOP
 
@@ -948,6 +1097,32 @@ JIT、JIT优化（逃逸分析、栈上分配、标量替换、锁优化）
 
 三次握手与四次关闭、流量控制和拥塞控制、OSI七层模型、tcp粘包与拆包
 
+> OSI七层模型
+>
+> - 应用层 **表示层 会话层** 传输层 网络层 数据链路层 物理层
+>
+> TCP/IP五层模型
+>
+> - 应用层 传输层 网络层 数据链路层 物理层 
+>
+> https://juejin.im/post/59a0472f5188251240632f92
+>
+> https://blog.csdn.net/huangjin0507/article/details/51613561
+>
+> OSI模型是一个标准，而非实现。
+>
+> TCP/IP模型是一个实现的应用模型。
+>
+> TCP/IP模型由七层模型简化合并而来。
+>
+> ---
+>
+> 为什么需要三次握手、四次挥手？
+>
+> ---
+>
+> 
+
 #### http/1.0 http/1.1 http/2之间的区别
 
 http中 get和post区别
@@ -955,6 +1130,14 @@ http中 get和post区别
 常见的web请求返回的状态码
 
 404、302、301、500分别代表什么
+
+> 301永久重定向
+>
+> 302临时重定向
+>
+> 307 Temporary Redirect是HTTP协议中的一个状态码（Status Code）。可以理解为一个临时的重定向[1]。
+>
+> 但该响应代码与302重定向有所区别的地方在于，收到307响应码后，客户端应保持请求方法不变向新的地址发出请求。[2]
 
 #### http/3
 
@@ -966,13 +1149,41 @@ cookie被禁用，如何实现session
 
 #### 用Java写一个简单的静态文件的HTTP服务器
 
+> https://blog.csdn.net/yanghua_kobe/article/details/7296156
+>
+> 
+
 #### 了解nginx和apache服务器的特性并搭建一个对应的服务器
 
 #### 用Java实现FTP、SMTP协议
 
 #### 进程间通讯的方式
 
+> https://blog.csdn.net/gatieme/article/details/50908749
+>
+> https://www.jianshu.com/p/c1015f5ffa74
+>
+> - 共享内存
+> - 信号量
+> - 套接字
+>   - 套接字的特性由3个属性确定，它们分别是：域、端口号、协议类型。、
+> - 消息队列
+> - 管道
+>   - 管道的实质是一个内核缓冲区，进程以先进先出的方式从缓冲区存取数据，管道一端的进程顺序的将数据写入缓冲区，另一端的进程则顺序的读出数据。
+
 #### 什么是CDN？如果实现？
+
+> **基础架构：**最简单的CDN网络由一个DNS服务器和几台缓存服务器组成：
+>
+> 1. 当用户点击网站页面上的内容URL，经过本地DNS系统解析，DNS系统会最终将域名的解析权交给CNAME指向的CDN专用DNS服务器。
+> 2. CDN的DNS服务器将CDN的全局负载均衡设备IP地址返回用户。
+> 3. 用户向CDN的全局负载均衡设备发起内容URL访问请求。
+> 4. CDN全局负载均衡设备根据用户IP地址，以及用户请求的内容URL，选择一台用户所属区域的区域负载均衡设备，告诉用户向这台设备发起请求。
+> 5. 区域负载均衡设备会为用户选择一台合适的缓存服务器提供服务，选择的依据包括：根据用户IP地址，判断哪一台服务器距用户最近；根据用户所请求的URL中携带的内容名称，判断哪一台服务器上有用户所需内容；查询各个服务器当前的负载情况，判断哪一台服务器尚有服务能力。基于以上这些条件的综合分析之后，区域负载均衡设备会向全局负载均衡设备返回一台缓存服务器的IP地址。
+> 6. 全局负载均衡设备把服务器的IP地址返回给用户。
+> 7. 用户向缓存服务器发起请求，缓存服务器响应用户请求，将用户所需内容传送到用户终端。如果这台缓存服务器上并没有用户想要的内容，而区域均衡设备依然将它分配给了用户，那么这台服务器就要向它的上一级缓存服务器请求内容，直至追溯到网站的源服务器将内容拉到本地。
+>
+> https://zhuanlan.zhihu.com/p/28940451
 
 #### DNS？
 
@@ -986,7 +1197,18 @@ DNS污染、DNS劫持、公共DNS：114 DNS、Google DNS、OpenDNS
 
 正向代理、反向代理
 
+> ​		正向代理是一个位于客户端和目标服务器之间的代理服务器(中间服务器)。为了从原始服务器取得内容，客户端向代理服务器发送一个请求，并且指定目标服务器，之后代理向目标服务器转交并且将获得的内容返回给客户端。正向代理的情况下客户端必须要进行一些特别的设置才能使用。
+>   反向代理正好相反。对于客户端来说，反向代理就好像目标服务器。并且客户端不需要进行任何设置。客户端向反向代理发送请求，接着反向代理判断请求走向何处，并将请求转交给客户端，使得这些内容就好似他自己一样，一次客户端并不会感知到反向代理后面的服务，也因此不需要客户端做任何设置，只需要把反向代理服务器当成真正的服务器就好了。
+>
+> https://www.jianshu.com/p/208c02c9dd1d
+>
+> https://segmentfault.com/a/1190000012549192
+
 反向代理服务器
+
+> Nginx
+>
+> 负载均衡是反向代理的一种运用。 即通过反向代理来做服务端的负载均衡。
 
 ### 框架知识
 
@@ -1034,6 +1256,10 @@ Hibernate/Ibatis/MyBatis之间的区别
 
 #### Spring
 
+Spring bean循环依赖解决？
+
+> 
+
 > Bean 的四种作用域：单例、原型、会话、请求
 >
 > 单例的线程安全问题：<https://www.jianshu.com/p/d21b65f7a6b8>
@@ -1044,13 +1270,54 @@ Bean的初始化
 
 AOP原理
 
+> 基于代理，面向切面编程。
+
 实现Spring的IOC
+
+> 为什么叫IOC？控制反转？
+>
+> 控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。
+> 其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。
+>
+> 为什么叫反转？一般我们需要用某个类对象时，是自己去new一个对象，但是现在是由容器为我们注入，反过来了。
+>
+> https://blog.csdn.net/TimHeath/article/details/53471152
+
+IOC和DI的关系?
+
+> IOC和DI有什么区别？ - 灵魂机器的回答 - 知乎
+> https://www.zhihu.com/question/25392984/answer/45224293
 
 spring四种依赖注入方式
 
+> 直接编码
+>
+> - 构造器注入
+> - setter注入
+>
+> 配置文件
+>
+> 注解
+>
+> —《Spring揭秘 4.2》
+>
+> ???? https://zhuanlan.zhihu.com/p/34405799  Spring IOC介绍与4种注入方式
+>
+> a.接口注入
+>
+> b.setter方法注入
+>
+> c.构造方法注入
+>
+> d.注解方式注入
+
 #### Spring MVC
 
-什么是MVC
+什么是MVC？
+
+spring mvc执行流程？MVC的流程？
+
+> 
 
 Spring mvc与Struts mvc的区别
 
@@ -1096,6 +1363,15 @@ Spring Boot的starter原理，自己实现一个starter
 
 #### Weblogic
 
+> 1、Apache是Web服务器，Tomcat是应用（Java）服务器。Tomcat在中小型系统和并发访问用户不是很多的场合下被普遍使用。Apache支持静态页，Tomcat支持动态的。
+> 2、Jetty:Tomcat内核作为其Servlet容器引擎，并加以审核和调优.大中型系统可以应用。能够提供数据库连接池服务,还支持其他 Web 技术的集成，譬如PHP、.NET 两大阵营.
+> 3、JBoss是一个管理EJB的容器和服务器，但JBoss核心服务不包括支持servlet/JSP的WEB容器，一般与Tomcat或Jetty绑定使用。
+> 4、Nginx是目前性能最高的HTTP服务器。其特点是占有内存少，并发能力强。Nginx代码完全用C语言从头写成。
+>
+>
+> https://blog.csdn.net/gechengling/article/details/22582591 
+>
+
 ### 工具
 
 #### git & svn
@@ -1114,7 +1390,7 @@ Lombok plugin、.ignore、Mybatis plugin
 
 #### Java 8
 
-lambda表达式、Stream API、时间API
+**lambda表达式**、Stream API、时间API
 
 #### Java 9
 
@@ -1126,11 +1402,11 @@ Jigsaw、Jshell、Reactive Streams
 
 #### Java 11
 
-ZGC、Epsilon、增强var、
+**ZGC**、Epsilon、增强var、
 
 #### Spring 5
 
-响应式编程
+**响应式编程**
 
 #### Spring Boot 2.0
 
@@ -1355,6 +1631,10 @@ redis、memcached
 
 各种排序算法和时间复杂度
 
+> 手写快排！[./sort/QuickSort.md](./sort/QuickSort.md)
+>
+> - 快排不稳定，最坏情况下，数组完全倒序，每次选第一个为pivot，退化为冒泡排序，时间复杂度O(n^2)，平均时间复杂度O(nlogn)
+
 #### 深度优先和广度优先搜索
 
 #### 全排列、贪心算法、KMP算法、hash算法
@@ -1374,6 +1654,8 @@ redis、memcached
 #### Solr，Lucene，ElasticSearch
 
 在linux上部署solr，solrcloud，，新增、删除、查询索引、倒排索引
+
+> 
 
 #### Storm，流式计算，了解Spark，S4
 
@@ -1431,6 +1713,26 @@ memcached为什么可以导致DDos攻击、什么是反射型DDoS
 
 2PC、3PC、CAP、BASE、 可靠消息最终一致性、最大努力通知、TCC
 
+> 关于分布式事务、两阶段提交协议、三阶提交协议 [http://www.hollischuang.com/archives/681](http://www.hollischuang.com/archives/681)
+>
+> 2PC
+>
+> - preCommit：协调者询问是否可提交
+> - doCommit：提交
+>
+> - 单点故障
+> - 同步阻塞
+> - 数据不一致
+>
+> 3PC
+>
+> - canCommit：协调者询问参与者是否可提交
+> - preCommit：协调者告知参与者可提交
+> - doCommit：提交
+> - 对比可以看出，3PC比2PC多了一个中间步骤(告知)，如果告知阶段出问题，那么最后也不会提交，如果告知没问题，那么所有的协调者都知道要提交了，即使提交阶段出问题了，协调者也会超时提交。
+> - 而2PC，如果在提交阶段出问题，就可能出现数据不一致的情况？
+> - 3pc为参与者也引入的超时机制，
+>
 > CAP（维基百科）
 >
 > - 一致性（**C**onsistency） （等同于所有节点访问同一份最新的数据副本）
@@ -1438,6 +1740,10 @@ memcached为什么可以导致DDos攻击、什么是反射型DDoS
 > - [分区容错性](https://zh.wikipedia.org/w/index.php?title=%E7%BD%91%E7%BB%9C%E5%88%86%E5%8C%BA&action=edit&redlink=1)（**P**artition tolerance）（以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择[[3\]](https://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86#cite_note-3)。）。。。。。。就是容忍网络分区。那么容忍网络分区，就要在C和A之间选一个。
 >
 > TCC：
+>
+> - https://juejin.im/post/5bf201f7f265da610f63528a
+>
+> 
 
 #### Dubbo
 
@@ -1473,7 +1779,36 @@ SOA、康威定律
 
 #### ServiceMesh
 
+> Envoy，Istio
+
 sidecar
+
+> https://mp.weixin.qq.com/s/LmwkFZxBXEpYRGLLR11xZg?
+>
+> 它在原有的客户端和服务端之间加多了一个代理
+>
+> 
+>
+> ServiceMesh 接管整个网络，负责转发请求，形成通信专用基础设施层。
+>
+> 应用程序只管发送和处理数据。
+>
+> 应用程序+单个serviceMesh节点，就是一个sidecar。
+>
+> 多个serviceMesh代理节点形成网格。
+>
+> 服务网格际上是抽象出了一个基础设施层，在应用之外。其次，功能是实现请求的可靠传递。部署上体现为轻量级的网络代理。最后一个关键词是，对应用程序透明。
+>
+> 微服务的痛点：
+>
+> 1. 内容多，门槛高，微服务框架的学习耗时
+> 2. 服务治理功能不齐全，就算有Spring Cloud，还要自己做一些扩展
+> 3. 跨语言支持，负责可能需要写多个不同语言的类库
+> 4. 升级困难，保证不同语言的不同版本类库之间的兼容性
+>
+> Service Mesh怎么解决跨语言？？？
+>
+> 
 
 #### Docker & Kubernets
 
@@ -1512,6 +1847,22 @@ CPU、内存、磁盘I/O、网络I/O等
 tomcat负载均衡、Nginx负载均衡
 
 四层负载均衡、七层负载均衡
+
+> 四层工作在OSI第四层，也就是传输层，使用IP加端口的方式进行路由转发；
+>
+> 七层工作在最高层，也就是应用层，基于请求URL地址的方式进行代理转发。(说的不是很合理，应该是基于HTTP报文的具体内容？)
+>
+> 常见四层和七层负载均衡设备？
+>
+> 四层: F5、LVS等(硬件)
+>
+> 七层: nginx、apache等(软件)
+>
+> 四层负载均衡和七层负载均衡区别在哪里？https://zhuanlan.zhihu.com/p/34904010
+>
+> 什么是四层(L4 proxy)和七层负载均衡(L7 proxy)？https://zhuanlan.zhihu.com/p/53438208
+>
+> 
 
 ### DNS
 
