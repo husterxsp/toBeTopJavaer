@@ -299,19 +299,24 @@ apache集合处理工具类的使用、
 
 #### 枚举
 
-枚举的用法、枚举的实现、枚举与单例、Enum类
+[枚举的用法](/basics/java-basic/enum-usage.md)
 
-Java枚举如何比较
+[枚举的实现](/basics/java-basic/enum-impl.md)
 
-switch对枚举的支持
+[枚举与单例](/basics/java-basic/enum-singleton.md)、Enum类
+
+[Java枚举如何比较](/basics/java-basic/enum-compare.md)
+
+[switch对枚举的支持](/basics/java-basic/enum-switch.md)
 
 [枚举的序列化如何实现](/basics/java-basic/enum-serializable.md)
 
-枚举的线程安全性问题
+[枚举的线程安全性问题](/basics/java-basic/enum-thread-safe.md)
 
 #### IO
 
-字符流、字节流、输入流、输出流、
+[字符流、字节流](/basics/java-basic/byte-stream-vs-character-stream.md)、[输入流、输出流](/basics/java-basic/input-stream-vs-output-stream.md)
+
 
 > 知识星球IO专题
 >
@@ -344,6 +349,11 @@ switch对枚举的支持
 
 BIO、NIO和AIO的区别、三种IO的用法与原理、netty
 
+[同步、异步](/basics/java-basic/synchronized-vs-asynchronization.md)、[阻塞、非阻塞](/basics/java-basic/block-vs-non-blocking.md)、[Linux 5种IO模型](/basics/java-basic/linux-io.md)
+
+[BIO、NIO和AIO的区别、三种IO的用法与原理](/basics/java-basic/bio-vs-nio-vs-aio.md)、netty
+
+
 > BIO：阻塞IO。java.io 下面的实现
 >
 > NIO：非阻塞IO。java.nio下的实现
@@ -362,7 +372,7 @@ BIO、NIO和AIO的区别、三种IO的用法与原理、netty
 
 #### Java反射与javassist
 
-反射与工厂模式、 反射有什么作用
+[反射](/basics/java-basic/reflection.md)与工厂模式、 [反射有什么作用](/basics/java-basic/usage-of-reflection.md)
 
 > **反射** 机制指的是程序在运行时能够获取自身的信息。在java中，只要给定类的名字，那么就可以通过反射机制来获得类的所有属性和方法。（星球直面java系列 140期）
 >
@@ -392,7 +402,7 @@ BIO、NIO和AIO的区别、三种IO的用法与原理、netty
 > 反射与工厂模式
 > <http://www.hollischuang.com/archives/1163>
 
-Class类
+[Class类](/basics/java-basic/Class.md)
 
 `java.lang.reflect.*`
 
@@ -419,7 +429,7 @@ Class类
 
 #### 动态代理
 
-静态代理、动态代理
+[静态代理](/basics/java-basic/static-proxy.md)、[动态代理](/basics/java-basic/dynamic-proxy.md)
 
 > 静态代理相当于给原来的方法再包装一层：比如可以记录日志、控制对象访问权限，增强对象功能。
 >
@@ -473,6 +483,13 @@ AOP（直面java156）
 > JDK动态代理通过反射来接收被代理的类，并且要求被代理的类必须实现一个接口。JDK动态代理的核心是InvocationHandler接口和Proxy类。
 > 如果目标类没有实现接口，那么Spring AOP会选择使用CGLIB来动态代理目标类。
 > CGLIB（Code Generation Library），是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB是通过继承的方式做的动态代理，因此如果某个类被标记为**final**，那么它是无法使用CGLIB做动态代理的。
+
+[动态代理和反射的关系](/basics/java-basic/dynamic-proxy-vs-reflection.md)
+
+[动态代理的几种实现方式](/basics/java-basic/dynamic-proxy-implementation.md)
+
+[AOP](/basics/java-basic/aop-vs-proxy.md)
+
 
 #### 序列化
 
